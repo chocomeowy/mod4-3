@@ -31,15 +31,15 @@ export default function LoginScreen({ navigation}) {
     return (
         //<TouchableWithoutFeedback onPress={Keyboard}>
             <View style={styles.container}>
-                <Text styles={styles.title}>Chat App</Text>
-                <Text styles={styles.fieldTitle}>Email</Text>
+                <Text style={styles.title}>Chat App</Text>
+                <Text style={styles.fieldTitle}>Email</Text>
                 <TextInput
                 style={styles.input}
                 placeholder="Enter your Email"
                 value={email}
                 onChangeText={(Text) => setEmail(Text)}
                 ></TextInput>
-                <Text styles={styles.fieldTitle}>Password</Text>
+                <Text style={styles.fieldTitle}>Password</Text>
                 <TextInput
                 style={styles.input}
                 placeholder="Enter Password"
@@ -48,7 +48,7 @@ export default function LoginScreen({ navigation}) {
                 onChangeText={(Text) => setPassword(Text)}
                 ></TextInput>
                 <TouchableOpacity style= {styles.loginButton} onPress={login}>
-                    <Text>Log In</Text>
+                    <Text style = {styles.buttonText}>Log In</Text>
                 </TouchableOpacity>
                 <Text style={styles.errorText}>{errorText}</Text>
 
@@ -64,37 +64,34 @@ export default function LoginScreen({ navigation}) {
       justifyContent: "center",
       padding: 24,
       },
-
     title: {
-      fontSize: 50, 
-      fontWeight: 'bold',
-      textAlign: 'center',
-      marginTop: 20
+      fontSize: 36,
+      fontWeight: "bold",
+      marginBottom: 24,
     },
     fieldTitle: {
-        fontSize: 30, 
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginTop: 20
+      fontSize: 18,
+      marginBottom: 12,
     },
     input: {
-        margin: 20,
-        borderWidth: 1,
-        width: "90%",
-        padding: 10,
-        borderColor: "#ccc",
+      borderColor: "#999",
+      borderWidth: 1,
+      marginBottom: 24,
+      padding: 4,
+      height: 36,
+      fontSize: 18,
+      backgroundColor: "white",
       },
-    fieldTitle: {
-        fontSize: 30, 
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginTop: 20
-    },
     loginButton: {
         backgroundColor: 'grey',
         padding: 20,
         borderRadius: 10,
         marginTop: 20
+      },
+      buttonText: {
+        color: "white",
+        fontWeight: "bold",
+        fontSize: 18,
       },
       errorText: {
         color:"red",

@@ -1,16 +1,32 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import { Text, View,StyleSheet, Button, TouchableOpacity } from 'react-native';
 import firebase from "../database/firebaseDB";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {GiftedChat} from "react-native-gifted-chat";
 
-const db = firebase.firestore();
+const db = firebase.firestore().collection("messenges");
 
 export default function ChatScreen({ navigation }) {
   const [messages, setMessages] = useState([]);
 
 
   useEffect(() => {
+
+    const unsubscribe = db
+    .orderBy("createdAt", "desc")
+    .onSnapshot((collectionSnapshot) => {
+      const serverMessages = collectionSnapshot.docs.map((doc) => {
+        const data = doc.data();
+        console.log(data);
+        const jsDate = new Date(data.createdAt.seconds *1000);
+        const newDoc = {
+          ...data,
+          createdAt: jsDate,
+        };
+      });
+      setMessages(serverMessages);
+    });
+
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         //logged in
@@ -20,6 +36,7 @@ export default function ChatScreen({ navigation }) {
         navigation.navigate("Login");
       }
     });
+  
 
 //put the logout button in the header
     navigation.setOptions({
@@ -35,22 +52,10 @@ export default function ChatScreen({ navigation }) {
         </TouchableOpacity>
       ),
     });
-
-    setMessages([
-      {
-        _id:1,
-        text: "hello there",
-        createdAt: new Date(),
-        user:{
-          _id: 2,
-          name: "demo person",
-          avatar: " https://placeimg.com/140/140/any",
-        },
-      },
-
-    ]);
+    return unsubscribe;
 
   }, []);
+
 
   function logout() {
     firebase.auth().signOut();
@@ -58,16 +63,23 @@ export default function ChatScreen({ navigation }) {
 
   function sendMessages(newMessages) {
     console.log(newMessages);
+    //db.add(newMessages[0]);
+    //no need any more
     setMessages([...newMessages, ...messages]);
   }
 
 
 
     return (
-      <View>
-        <Text>Chat</Text>
-
-      </View>
+    
+    <GiftedChat
+      messages={messages}
+      onSend={messages => onSend(messages)}
+      user={{
+        _id: 1,
+        name:" test dummy",
+      }}
+    />
+   
     );
   }
-
