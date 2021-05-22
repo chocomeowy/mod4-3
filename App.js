@@ -7,12 +7,14 @@ import { NavigationContainer } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
 
+
 export default function App() {
   return (
     <NavigationContainer>
-    <Stack.Navigator>
-      <Stack.Screen name = "LoginScreen" component={LoginScreen} />
-      <Stack.Screen name = "ChatScreen" component={ChatScreen} />
+    <Stack.Navigator mode ="modal">
+      <Stack.Screen name = "Chat" component={ChatScreen} />
+      <Stack.Screen name = "Login" component={LoginScreen} />
+
     </Stack.Navigator>
     </NavigationContainer>
   );
